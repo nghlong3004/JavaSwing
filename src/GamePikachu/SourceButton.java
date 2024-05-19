@@ -11,6 +11,7 @@ import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.Timer;
 
 public class SourceButton implements ActionListener{
 	private final static String address = "C:\\Users\\hh1305\\LONG\\JAVA\\JavaSwing\\src\\GamePikachu\\Image\\";
@@ -21,6 +22,9 @@ public class SourceButton implements ActionListener{
 	private JLabel scoreJlabel;
 	private static ImageIcon[] images;
 	private int score = 0;
+	public int getScore() {
+		return score;
+	}
 	private static int countClick;
 	private final static int ROW = 6;
 	private final static int COL = 6;
@@ -122,24 +126,30 @@ public class SourceButton implements ActionListener{
 			scoreJlabel.setText("Score : " + score);
 		}
 		else{
+			click.setIcon(images[Integer.parseInt(click.getText())]);
 			if(countClick == 1){
-				click.setIcon(images[Integer.parseInt(click.getText())]);
 				oldClick = click;
 			}
 			else{
-				click.setIcon(images[Integer.parseInt(click.getText())]);
-				if(oldClick.getText().equals(click.getText())){
-					score += 10;
-					scoreJlabel.setText("Score :" + score);
-					oldClick.setIcon(images[12]);
-					click.setIcon(images[12]);
-					oldClick.setEnabled(false);
-					click.setEnabled(false);
-				}
-				else{
-					oldClick.setIcon(images[13]);
-					click.setIcon(images[13]);
-				}
+				Timer timer = new Timer(200, new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						// TODO Auto-generated method stub
+						if(oldClick.getText().equals(click.getText())){
+							score += 10;
+							scoreJlabel.setText("Score :" + score);
+							oldClick.setIcon(images[12]);
+							click.setIcon(images[12]);
+							oldClick.setEnabled(false);
+							click.setEnabled(false);
+						}
+						else{
+							oldClick.setIcon(images[13]);
+							click.setIcon(images[13]);
+						}
+					}
+				});
+				timer.start();
+				timer.setRepeats(false);
 			}
 		}
 	}

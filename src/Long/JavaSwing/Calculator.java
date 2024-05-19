@@ -3,17 +3,13 @@ package Long.JavaSwing;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
+import java.text.NumberFormat;
+import java.util.Locale;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -64,72 +60,12 @@ public class Calculator extends JFrame{
 		return res;
 	}
 	public static String stand(String s){
-		int flag = 1;
-		String res = "";
-		int n = s.length() - 1;
-		for(int i = 0; i < s.length(); ++i){
-			if(s.charAt(i) == 'E'){
-				if(s.charAt(i + 1) != '-'){
-					flag = 0;
-				}
-				break;
-			}
-		}
-		if(flag == 0){
-			res += s.charAt(0);
-			int m = s.charAt(n) - '0';
-			for(int i = 2; i < n && s.charAt(i) != 'E'; ++i){
-				res += s.charAt(i);
-				--m;
-				if(m == 0){
-					if(i + 1 < n && s.charAt(i + 1) != 'E'){
-						res += '.';
-					}
-				}
-			}
-			while(m > 0){
-				res += '0';
-				--m;
-			}
-			s = res;
-			res = "";
-		}
-		n = s.length() - 1;
-		while(n >= 0){
-			if(s.charAt(n) == '.'){
-				--n;
-				break;
-			}
-			--n;
-		}
-		if(n < 0){
-			n = s.length() - 1;
-		}
-		for(int i = 0; i <= n; ++i){
-			if(i > 0 && i % 3 == (n + 1) % 3){
-				res += ',';
-			}
-			res += s.charAt(i);
-		}
-		if(n + 2 < s.length()){
-			String mod = "";
-			if(s.charAt(n + 2) >= '0' && s.charAt(n + 2) <= '9'){
-				mod += '.';
-				for(int i = n + 2; i < s.length(); ++i){
-					if(s.charAt(i) >= '0' && s.charAt(i) <= '9'){
-						mod += s.charAt(i);
-					}
-					else{
-						break;
-					}
-				}
-			}
-			if(mod.length() > 2 || (mod.length() == 2 && mod.charAt(1) > '0')){
-				res += mod;
-			}
-		}
-		
-		return res;
+		Locale locale = new Locale("vi", "VN");
+		NumberFormat format = NumberFormat.getInstance(locale);
+		double number = Double.parseDouble(s);
+		String k  = format.format(number);
+		//String k = Double.toString(number);
+		return k;
 	}
 	
 	public Calculator() {
